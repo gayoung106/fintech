@@ -37,7 +37,8 @@ npm install react-slick --force
 npm install react-modal --force
 npm install slick-carousel --force
 npm install jsonwebtoken
-
+npm install --save mysql2
+npm install dotenv --save
 ```
 
 ## 오픈뱅킹 API
