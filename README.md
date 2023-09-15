@@ -32,10 +32,12 @@ npm install react-router-dom
 npm install axios
 npm install query-string
 npm install qrcode.react
-npm i react-qrcode-reader
- npm install react-slick --force
- npm install react-modal --force
- npm install slick-carousel --force
+npm install react-qrcode-reader
+npm install react-slick --force
+npm install react-modal --force
+npm install slick-carousel --force
+npm install jsonwebtoken
+
 ```
 
 ## 오픈뱅킹 API
