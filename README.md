@@ -6,7 +6,7 @@ React JS
 <br>
 styled-components
 <br>
-Nest JS
+express JS
 <br>
 오픈뱅킹 API
 
@@ -19,6 +19,17 @@ npx create-react-app fintech
 ```
 npm start
 ```
+
+## server
+
+```
+node expressServer.js
+```
+
+### port
+
+front : /3000
+server: /4000
 
 ## ✂️ Components Parts
 
