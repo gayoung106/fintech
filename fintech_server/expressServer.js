@@ -8,6 +8,8 @@ const axios = require("axios");
 const app = express();
 
 dotenv.config();
+
+//mysql 라이브러리 사용 - 데이터베이스 연결
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_ACCOUNT,
@@ -27,8 +29,12 @@ app.post("/", (req, res) => {
   console.log(req.body);
   res.send("hello");
 });
-
+// login : endpoint /login
+// 구조: post 방식(endpoint, 콜백함수(req, res) => {})
 app.post("/login", (req, res) => {
+  //req의 body에서 userAccount, password를 추출
+  //cf) req,body는 클라이언트가 post요청을 보낼 때 요청 바디에 담긴 데이터를 추출하는 부분
+  //body는 프론트 부분에 body요청 임
   const { userAccount, password } = req.body;
   const sql =
     "SELECT user_id, user_account, user_password FROM fintech.user WHERE user_account = ?";
@@ -63,6 +69,7 @@ app.post("/login", (req, res) => {
   });
 });
 
+//비밀번호 해싱: 입력된 평문 비밀번호를 해싱
 const sha256Enc = (plainText, key) => {
   const secret = key;
   const hash = crypto
