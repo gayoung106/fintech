@@ -39,6 +39,7 @@ npm install slick-carousel --force
 npm install jsonwebtoken
 npm install --save mysql2
 npm install dotenv --save
+npm install express
 ```
 
 ## 오픈뱅킹 API
