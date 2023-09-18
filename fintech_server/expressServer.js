@@ -41,20 +41,28 @@ app.post("/login", (req, res) => {
   connection.query(sql, [userAccount], (err, result) => {
     if (err) throw err;
     console.log(result);
+    //클라이언트가 입력한 비밀번호 (password)를 sha256Enc 함수를 사용하여 해싱
+    //해싱된 비밀번호를 encPassword 변수에 저장
     let encPassword = sha256Enc(password, "fintech");
+    //데이터베이스에서 가져온 사용자 정보의 해싱된 비밀번호와 encPassword를 비교하여, 두 값이 일치하면 로그인 성공
     if (encPassword === result[0].user_password) {
       let tokenKey = "f@i#n%tne#ckfhlafkd0102test!@#%";
+      //로그인이 성공하면, 사용자의 정보를 기반으로 JWT를 발급
+      //jwt.sign 함수를 사용하여 토큰을 생성하고, 이 토큰은 클라이언트에게 JSON 형태로 반환
       jwt.sign(
         {
           userId: result[0].user_id,
           userEmail: result[0].user_account,
         },
+        //토큰은 tokenKey를 사용하여 서명되며, 이 서명은 토큰의 유효성을 검증하는 데 사용
         tokenKey,
         {
           expiresIn: "10d",
           issuer: "fintech.admin",
           subject: "user.login.info",
         },
+        //토큰이 생성되면 콜백 함수에서 오류 여부를 확인하고
+        //오류가 없으면 로그인 성공 로그를 출력하고 토큰을 클라이언트에 JSON 형식으로 응답으로 전송
         function (err, token) {
           if (err) {
             console.error(err);
@@ -63,6 +71,7 @@ app.post("/login", (req, res) => {
           res.json(token);
         }
       );
+      //만약 encPassword와 데이터베이스에서 가져온 사용자의 해시된 비밀번호가 일치하지 않으면, "비밀번호 다릅니다."라는 메시지를 클라이언트에게 응답으로 전송하여 로그인 실패
     } else {
       res.json("비밀번호 다릅니다.");
     }
@@ -73,8 +82,11 @@ app.post("/login", (req, res) => {
 const sha256Enc = (plainText, key) => {
   const secret = key;
   const hash = crypto
+    //createHmac함수: 해시생성을 시작 첫번째 인자는 사용할 해시알고리즘, 두 번째 인자는 해시 생성에 사용할 키
     .createHmac("sha256", secret)
+    // update함수: 입력받은 plainText를 업데이트
     .update(plainText)
+    // digest함수: Base64 형식으로 해시를 생성
     .digest("base64");
   return hash;
 };
